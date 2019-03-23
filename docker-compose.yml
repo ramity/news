@@ -1,0 +1,32 @@
+version: '3'
+services:
+    apache:
+        build:
+            context: ./services/apache
+            dockerfile: Dockerfile
+        container_name: news_apache
+        ports:
+            - 80:80
+        volumes:
+            - ./symfony:/var/www/symfony
+    mysql:
+        build:
+            context: ./services/mysql
+            dockerfile: Dockerfile
+        container_name: news_mysql
+        env_file:
+            - ./mysql/.env
+        ports:
+            - 3306:3306
+        volumes:
+            - ./services/mysql/data:/var/lib/mysql
+    phpmyadmin:
+        build:
+            context: ./services/phpmyadmin
+            dockerfile: Dockerfile
+        container_name: news_phpMyAdmin
+        env_file:
+            - ./phpMyAdmin/.env
+        ports:
+            - 8080:8080
+    python:
